@@ -1,4 +1,5 @@
-import streamlit as st
+mport streamlit as st
+import importlib.util
 
 # ユーザー認証情報を定義
 USERNAME = "abcd"
@@ -25,6 +26,15 @@ if not st.session_state["authenticated"]:
 else:
     st.success("ログイン成功")
 
-    # sample.pyのコードを実行
-    with open("sample.py") as file:
-        exec(file.read())
+    # sample.pyのコードをインポートして実行
+    sample_file = "sample.py"
+    spec = importlib.util.spec_from_file_location("sample", sample_file)
+    sample_module = importlib.util.module_from_spec(spec)
+    
+    try:
+        spec.loader.exec_module(sample_module)
+        st.write("sample.py が正常に実行されました。")
+    except FileNotFoundError:
+        st.error(f"{sample_file} が見つかりませんでした。")
+    except Exception as e:
+        st.error(f"エラーが発生しました: {str(e)}")
