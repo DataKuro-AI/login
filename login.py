@@ -26,7 +26,7 @@ if not st.session_state["authenticated"]:
     login()
     st.stop()  # 認証されていない場合、ここで実行を停止
 
-# 認証された後にのみページを選択して表示
+# 認証されている場合のみページを選択して表示
 page = st.sidebar.selectbox("ページを選択してください", ["sample", "page1"])
 
 if page == "sample":
@@ -37,3 +37,4 @@ elif page == "page1":
     # ページ1の内容を表示
     st.title("ページ1")
     st.write("ここはページ1のコンテンツです。")
+
