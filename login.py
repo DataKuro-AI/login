@@ -26,14 +26,20 @@ if not st.session_state["authenticated"]:
 else:
     st.success("ログイン成功")
 
-    # sample.pyのコードをインポートして実行
-    sample_file = "sample.py"
-    spec = importlib.util.spec_from_file_location("sample", sample_file)
+    # ページ選択
+    page = st.selectbox("ページを選択", ["sample", "page1"])
+
+    if page == "sample":
+        sample_file = "sample.py"
+    elif page == "page1":
+        sample_file = "pages/page1.py"
+    
+    spec = importlib.util.spec_from_file_location(page, sample_file)
     sample_module = importlib.util.module_from_spec(spec)
     
     try:
         spec.loader.exec_module(sample_module)
-        st.write("sample.py が正常に実行されました。")
+        st.write(f"{sample_file} が正常に実行されました。")
     except FileNotFoundError:
         st.error(f"{sample_file} が見つかりませんでした。")
     except Exception as e:
