@@ -14,6 +14,7 @@ def login():
     if st.sidebar.button("ログイン"):
         if username == USERNAME and password == PASSWORD:
             st.session_state["authenticated"] = True
+            st.sidebar.success("ログイン成功")
         else:
             st.sidebar.error("ユーザー名またはパスワードが違います")
 
@@ -23,10 +24,9 @@ if "authenticated" not in st.session_state:
 
 if not st.session_state["authenticated"]:
     login()
+    st.stop()  # 認証されていない場合、ここで実行を停止
 else:
-    st.sidebar.success("ログイン成功")
-
-    # ページ選択のためのサイドバー
+    # ログイン成功後のページ選択
     page = st.sidebar.selectbox("ページを選択してください", ["sample", "page1"])
 
     # 選択されたページに応じて対応するファイルをロードして実行
