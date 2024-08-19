@@ -1,5 +1,4 @@
 import streamlit as st
-import importlib.util
 
 # ユーザー認証情報を定義
 USERNAME = "abcd"
@@ -18,30 +17,29 @@ def login():
         else:
             st.sidebar.error("ユーザー名またはパスワードが違います")
 
+# ページ1の内容を表示する関数
+def show_page1():
+    st.title("ページ1")
+    st.write("ここはページ1のコンテンツです。")
+
+# Sampleページの内容を表示する関数
+def show_sample():
+    st.title("ログイン成功")
+    st.write("ここはSampleページのコンテンツです。")
+
 # 認証の状態を確認
 if "authenticated" not in st.session_state:
     st.session_state["authenticated"] = False
 
+# 認証されていない場合、ログインフォームを表示して処理を停止
 if not st.session_state["authenticated"]:
     login()
     st.stop()  # 認証されていない場合、ここで実行を停止
-else:
-    # ログイン成功後のページ選択
-    page = st.sidebar.selectbox("ページを選択してください", ["sample", "page1"])
 
-    # 選択されたページに応じて対応するファイルをロードして実行
-    if page == "sample":
-        file_to_load = "sample.py"
-    elif page == "page1":
-        file_to_load = "pages/page1.py"
-    
-    spec = importlib.util.spec_from_file_location(page, file_to_load)
-    module = importlib.util.module_from_spec(spec)
-    
-    try:
-        spec.loader.exec_module(module)
-        st.write(f"{file_to_load} が正常に実行されました。")
-    except FileNotFoundError:
-        st.error(f"{file_to_load} が見つかりませんでした。")
-    except Exception as e:
-        st.error(f"エラーが発生しました: {str(e)}")
+# 認証されている場合、ページを選択して表示
+page = st.sidebar.selectbox("ページを選択してください", ["sample", "page1"])
+
+if page == "sample":
+    show_sample()
+elif page == "page1":
+    show_page1()
