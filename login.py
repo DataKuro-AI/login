@@ -17,16 +17,6 @@ def login():
         else:
             st.sidebar.error("ユーザー名またはパスワードが違います")
 
-# ページ1の内容を表示する関数
-def show_page1():
-    st.title("ページ1")
-    st.write("ここはページ1のコンテンツです。")
-
-# Sampleページの内容を表示する関数
-def show_sample():
-    st.title("ログイン成功")
-    st.write("ここはSampleページのコンテンツです。")
-
 # 認証の状態を確認
 if "authenticated" not in st.session_state:
     st.session_state["authenticated"] = False
@@ -36,10 +26,14 @@ if not st.session_state["authenticated"]:
     login()
     st.stop()  # 認証されていない場合、ここで実行を停止
 
-# 認証されている場合、ページを選択して表示
+# 認証された後にのみページを選択して表示
 page = st.sidebar.selectbox("ページを選択してください", ["sample", "page1"])
 
 if page == "sample":
-    show_sample()
+    # Sampleページの内容を表示
+    st.title("ログイン成功")
+    st.write("ここはSampleページのコンテンツです。")
 elif page == "page1":
-    show_page1()
+    # ページ1の内容を表示
+    st.title("ページ1")
+    st.write("ここはページ1のコンテンツです。")
