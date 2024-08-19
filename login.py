@@ -26,21 +26,23 @@ if not st.session_state["authenticated"]:
 else:
     st.success("ログイン成功")
 
-    # ページ選択
-    page = st.selectbox("ページを選択", ["sample", "page1"])
+    # ページ選択のためのセレクトボックスを表示
+    page = st.selectbox("ページを選択してください", ["sample", "page1"])
 
+    # 選択されたページに応じて対応するファイルをロードして実行
     if page == "sample":
-        sample_file = "sample.py"
+        file_to_load = "sample.py"
     elif page == "page1":
-        sample_file = "pages/page1.py"
+        file_to_load = "pages/page1.py"
     
-    spec = importlib.util.spec_from_file_location(page, sample_file)
-    sample_module = importlib.util.module_from_spec(spec)
+    spec = importlib.util.spec_from_file_location(page, file_to_load)
+    module = importlib.util.module_from_spec(spec)
     
     try:
-        spec.loader.exec_module(sample_module)
-        st.write(f"{sample_file} が正常に実行されました。")
+        spec.loader.exec_module(module)
+        st.write(f"{file_to_load} が正常に実行されました。")
     except FileNotFoundError:
-        st.error(f"{sample_file} が見つかりませんでした。")
+        st.error(f"{file_to_load} が見つかりませんでした。")
     except Exception as e:
         st.error(f"エラーが発生しました: {str(e)}")
+
