@@ -4,6 +4,10 @@ import streamlit as st
 USERNAME = "abcd"
 PASSWORD = "abcd"
 
+# 認証状態の初期化
+if "authenticated" not in st.session_state:
+    st.session_state["authenticated"] = False
+
 # ログインフォームを表示
 def login():
     st.sidebar.title("ログイン")
@@ -17,15 +21,11 @@ def login():
         else:
             st.sidebar.error("ユーザー名またはパスワードが違います")
 
-# 認証の状態を確認
-if "authenticated" not in st.session_state:
-    st.session_state["authenticated"] = False
-
 # 認証されていない場合、ログインフォームを表示して処理を停止
 if not st.session_state["authenticated"]:
     login()
     st.stop()  # 認証されていない場合、ここで実行を停止
 
-# 認証後にページ1の内容を表示
+# 認証後にのみ表示するコンテンツ
 st.title("ページ1")
 st.write("ここはページ1のコンテンツです。")
