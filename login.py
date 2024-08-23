@@ -20,11 +20,21 @@ def login():
         else:
             st.sidebar.error("ユーザー名またはパスワードが違います")
 
+# ログアウト処理
+def logout():
+    st.session_state["authenticated"] = False
+    st.sidebar.info("ログアウトしました")
+
 # 認証が必要なページの場合はログインを求める
 if not st.session_state["authenticated"]:
     login()
     st.stop()
+else:
+    # 認証後のコンテンツ表示
+    st.sidebar.title("メニュー")
+    if st.sidebar.button("ログアウト"):
+        logout()
+        st.stop()
 
-# 認証後のコンテンツ表示
-st.title("メインページ")
-st.write("ログイン後のコンテンツはこちらに表示されます。")
+    st.title("メインページ")
+    st.write("ログイン後のコンテンツはこちらに表示されます。")
